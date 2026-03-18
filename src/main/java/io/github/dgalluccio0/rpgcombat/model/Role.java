@@ -1,5 +1,7 @@
 package io.github.dgalluccio0.rpgcombat.model;
 
+import java.util.List;
+
 import io.github.dgalluccio0.rpgcombat.utils.RoleType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,7 +9,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,8 +24,8 @@ public class Role {
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
-	private RoleType role;
+	private RoleType name;
 	
-	@ManyToOne()
-	private User user;
+	@ManyToMany(mappedBy = "roles")
+	private List<User> users;
 }
