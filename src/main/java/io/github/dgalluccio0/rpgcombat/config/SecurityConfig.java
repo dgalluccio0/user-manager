@@ -3,17 +3,12 @@ package io.github.dgalluccio0.rpgcombat.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,37 +20,22 @@ public class SecurityConfig {
 		http
 			.authorizeHttpRequests(authorize ->
 				authorize.anyRequest().authenticated())
-			.httpBasic(Customizer.withDefaults())
-			.formLogin(Customizer.withDefaults());
+				.httpBasic(Customizer.withDefaults());
+			//.formLogin(Customizer.withDefaults());
 
 		return http.build();
 	}
 	
 	@Bean
-	public AuthenticationManager authenticationManager(
-			UserDetailsService userDetailsService,
-			PasswordEncoder passwordEncoder) {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
-		authenticationProvider.setPasswordEncoder(passwordEncoder);
-
-		return new ProviderManager(authenticationProvider);
-	}
-
-	
-	@Bean // questa classe qui va fatta in un service dove cerca tutti quanti gli utenti nel database
-	public UserDetailsService userDetailsService() {
-		UserDetails userDetails = User.withDefaultPasswordEncoder()
-			.username("user")
-			.password("password")
-			.roles("USER")
-			.build();
-
-		return new InMemoryUserDetailsManager(userDetails);
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	// non c'è bisogno di esporre questo metodo perché Spring già lo fa in automatico usando il mio CustomUserDetails e PasswordEncoder
+	//lo espongo ora perché dopo mi servirà per il token JWT
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
 	}
 
 }
