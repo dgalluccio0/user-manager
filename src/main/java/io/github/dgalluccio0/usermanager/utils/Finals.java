@@ -1,11 +1,13 @@
 package io.github.dgalluccio0.usermanager.utils;
 
 public interface Finals {
+	// Numbers
 	int MAX_EMAIL_LENGTH = 256;
 	int MAX_USERNAME_LENGTH = 64;
 	int MAX_PASSWORD_LENGTH = 64;
 	int MAX_HASHED_PASSWORD_LENGTH = 512;
 
+	// Error messages
 	String EMAIL_REQUIRED_ERROR = "Email required.";
 	String EMAIL_NOT_VALID_ERROR = "Email not valid.";
 	String EMAIL_ALREADY_EXISTS_ERROR = "Email already exists.";
