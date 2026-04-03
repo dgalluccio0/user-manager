@@ -36,7 +36,7 @@ public class User {
 	private String username;
 	
 	@NotBlank
-	@Size(max = Finals.MAX_PASSWORD_LENGTH)
+	@Size(max = Finals.MAX_HASHED_PASSWORD_LENGTH)
 	private String password;
 
 	@Enumerated(EnumType.STRING)

@@ -4,6 +4,7 @@ public interface Finals {
 	int MAX_EMAIL_LENGTH = 256;
 	int MAX_USERNAME_LENGTH = 64;
 	int MAX_PASSWORD_LENGTH = 64;
+	int MAX_HASHED_PASSWORD_LENGTH = 512;
 
 	String EMAIL_REQUIRED_ERROR = "Email required.";
 	String EMAIL_NOT_VALID_ERROR = "Email not valid.";
