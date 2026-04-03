@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActionDTO {
-	private Long id;
+	private Integer id;
 	private Character character;
 }

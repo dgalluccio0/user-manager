@@ -1,13 +1,9 @@
 package io.github.dgalluccio0.rpgcombat.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import io.github.dgalluccio0.rpgcombat.utils.Finals;
 import io.github.dgalluccio0.rpgcombat.utils.RoleType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -17,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -28,24 +26,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "users")
-public class User implements UserDetails {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@NotBlank
 	@Email
-	@Size(max = 256)
+	@Size(max = Finals.MAX_EMAIL_LENGTH)
 	private String email;
 	
 	@NotBlank
-	@Size(max = 64)
+	@Size(max = Finals.MAX_USERNAME_LENGTH)
 	private String username;
 	
 	@NotBlank
-	@Size(max = 256)
+	@Size(max = Finals.MAX_PASSWORD_LENGTH)
 	private String password;
 
+	@PrePersist
+    @PreUpdate
+	public void normalize() {
+		if (email != null) email = email.trim();
+		if (username != null) username = username.trim();
+	}
+	
 	@Enumerated(EnumType.STRING)
 	private RoleType role;
 	
@@ -54,9 +59,4 @@ public class User implements UserDetails {
 			orphanRemoval = true)
 	private List<Character> characters = new ArrayList<>();
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
-	}
-	
 }

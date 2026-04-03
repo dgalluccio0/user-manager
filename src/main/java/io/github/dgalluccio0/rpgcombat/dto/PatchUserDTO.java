@@ -1,8 +1,5 @@
 package io.github.dgalluccio0.rpgcombat.dto;
 
-import java.util.List;
-
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-	private Integer id;
-	
-	@NotBlank
+public class PatchUserDTO {
 	private String username;
-
-	private List<CharacterDTO> characters;
+	private String email;
 }

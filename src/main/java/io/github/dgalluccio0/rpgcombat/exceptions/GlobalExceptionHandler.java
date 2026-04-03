@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,12 +27,16 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public Map<String,String> handleConstraintViolationException(ConstraintViolationException e){
-		Map<String,String> result = new HashMap<String, String>();
-		e.getConstraintViolations().forEach( ce -> {
-			result.put(ce.getPropertyPath().toString(),ce.getMessage());
+	public Map<String, String> handleConstraintViolationException(ConstraintViolationException e) {
+		Map<String, String> result = new HashMap<String, String>();
+		e.getConstraintViolations().forEach(ce -> {
+			result.put(ce.getPropertyPath().toString(), ce.getMessage());
 		});
 		return result;
 	}
-
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleBadRequest(Exception ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 }
