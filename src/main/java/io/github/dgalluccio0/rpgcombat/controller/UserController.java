@@ -26,114 +26,48 @@ public class UserController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> addUser(@Valid @RequestBody CreateUserDTO dto) {
         User user = service.createUser(dto);
-        UserDTO response = service.toUserDTO(user);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.toUserDTO(user));
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> updateUser(
             @PathVariable Integer id,
             @Valid @RequestBody UpdateUserDTO dto) {
-        try {
-            User updatedUser = service.updateUser(id, dto);
-            if (updatedUser == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            UserDTO response = service.toUserDTO(updatedUser);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        User updatedUser = service.updateUser(id, dto);
+        return ResponseEntity.ok(service.toUserDTO(updatedUser));
     }
 
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> patchUser(
             @PathVariable Integer id,
             @RequestBody PatchUserDTO dto) {
-        try {
-            User patchedUser = service.patchUser(id, dto);
-            if (patchedUser == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            UserDTO response = service.toUserDTO(patchedUser);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        User patchedUser = service.patchUser(id, dto);
+        return ResponseEntity.ok(service.toUserDTO(patchedUser));
     }
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
-        try {
-            List<UserDTO> users = service.getAllDTO();
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok(service.getAllDTO());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable Integer id) {
-        try {
-            UserDTO user = service.getByIdDTO(id);
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok(service.getByIdDTO(id));
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDTO> getByEmail(@PathVariable String email) {
-        try {
-            UserDTO user = service.getByEmailDTO(email);
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok(service.getByEmailDTO(email));
     }
 
     @GetMapping("/username/{username}")
     public ResponseEntity<UserDTO> getByUsername(@PathVariable String username) {
-        try {
-            UserDTO user = service.getByUsernameDTO(username);
-            if (user == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return ResponseEntity.ok(service.getByUsernameDTO(username));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-        try {
-            Boolean deleted = service.deleteById(id);
-            if (deleted) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,9 +1,6 @@
 package io.github.dgalluccio0.rpgcombat.utils;
 
 public interface Finals {
-	int MAX_MOVES = 4;
-	int MAX_BODY_PART_HEALTH = 5;
-
 	int MAX_EMAIL_LENGTH = 256;
 	int MAX_USERNAME_LENGTH = 64;
 	int MAX_PASSWORD_LENGTH = 64;
@@ -18,5 +15,7 @@ public interface Finals {
 
 	String PASSWORD_REQUIRED_ERROR = "Password required.";
 	String PASSWORD_TOO_LONG_ERROR = "Password must be at most" + MAX_PASSWORD_LENGTH + "characters";
+
+	String USER_NOT_FOUND_ERROR = "User not found.";
 }
 
