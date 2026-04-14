@@ -79,7 +79,7 @@ public class UserService {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        if (userRepository.existsByEmail(dto.getEmail())
+        if (userRepository.existsByEmailAndIdNot(dto.getEmail(), id)
                 && !oldUser.getEmail().equals(dto.getEmail())) {
             throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
         }
@@ -88,29 +88,27 @@ public class UserService {
         return userRepository.save(oldUser);
     }
 
-    // FIXME: wrong logic? take a look
     public User patchUser(Integer id, PatchUserDTO dto) {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        if (dto.getUsername() != null && dto.getUsername().trim().isEmpty()) {
-            dto.setUsername(null);
+        if (null != dto.getEmail()
+                && userRepository.existsByEmailAndIdNot(dto.getEmail(), id)
+                && !oldUser.getEmail().equals(dto.getEmail())) {
+            throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
         }
 
-        if (dto.getEmail() != null && dto.getEmail().trim().isEmpty()) {
-            dto.setEmail(null);
+        if (null != dto.getUsername().trim()) {
+            oldUser.setUsername(dto.getUsername());
         }
 
-        if (dto.getEmail() != null) {
-            if (userRepository.existsByEmail(dto.getEmail())
-                    && !oldUser.getEmail().equals(dto.getEmail())) {
-                throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
-            }
+        if (null != dto.getEmail().trim()) {
+            oldUser.setEmail(dto.getEmail());
         }
-
-        modelMapper.map(dto, oldUser);
+        
         return userRepository.save(oldUser);
     }
+    
 
     public User updateRoleUser(Integer id, UpdateRoleDTO dto) {
         User oldUser = userRepository.findById(id)
