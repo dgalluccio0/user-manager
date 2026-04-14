@@ -3,6 +3,7 @@ package io.github.dgalluccio0.usermanager.service;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import io.github.dgalluccio0.usermanager.exceptions.ResourceNotFoundException;
 import io.github.dgalluccio0.usermanager.model.User;
 import io.github.dgalluccio0.usermanager.repository.UserRepository;
 import io.github.dgalluccio0.usermanager.utils.Finals;
+import io.github.dgalluccio0.usermanager.utils.RoleType;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,6 +25,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserDTO toUserDTO(User user) {
         return modelMapper.map(user, UserDTO.class);
@@ -62,6 +65,10 @@ public class UserService {
         }
 
         User user = modelMapper.map(dto, User.class);
+        
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(RoleType.USER);
+        
         return userRepository.save(user);
     }
 

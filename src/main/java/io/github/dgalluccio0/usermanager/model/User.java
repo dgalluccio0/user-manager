@@ -12,6 +12,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,6 +40,7 @@ public class User {
 	@Size(max = Finals.MAX_HASHED_PASSWORD_LENGTH)
 	private String password;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private RoleType role;
 	

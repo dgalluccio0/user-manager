@@ -1,0 +1,9 @@
+- Create an UpdateRoleDTO, add a method to update the role of a user.
+- Create an UpdatePasswordDTO, add a method to reset the password by using both the old and the new one
+- Create an AdminResetPasswordDTO, add the respective method
+- Lock methods behind admin authorization
+- Use JWT
+- Disable Basic Auth (don't forget)
+- Add a login and registration endpoint
+- Add rules to password (min size, certain amount of complexity, etc.)
+- Rate limiting login
