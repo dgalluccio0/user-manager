@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
+import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.UserDTO;
 import io.github.dgalluccio0.usermanager.exceptions.ResourceNotFoundException;
@@ -85,6 +86,7 @@ public class UserService {
         return userRepository.save(oldUser);
     }
 
+    // FIXME: wrong logic? take a look
     public User patchUser(Integer id, PatchUserDTO dto) {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
@@ -102,6 +104,18 @@ public class UserService {
                     && !oldUser.getEmail().equals(dto.getEmail())) {
                 throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
             }
+        }
+
+        modelMapper.map(dto, oldUser);
+        return userRepository.save(oldUser);
+    }
+
+    public User updateRoleUser(Integer id, UpdateRoleDTO dto) {
+        User oldUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
+        if (dto.getRole() == RoleType.USER && oldUser.getRole() == RoleType.ADMIN
+                && userRepository.countByRole(RoleType.ADMIN) <= 1) {
+            throw new IllegalStateException(Finals.CANT_DEMOTE_LAST_ADMIN_ERROR);
         }
 
         modelMapper.map(dto, oldUser);

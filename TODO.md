@@ -1,4 +1,3 @@
-- Create an UpdateRoleDTO, add a method to update the role of a user.
 - Create an UpdatePasswordDTO, add a method to reset the password by using both the old and the new one
 - Create an AdminResetPasswordDTO, add the respective method
 - Lock methods behind admin authorization

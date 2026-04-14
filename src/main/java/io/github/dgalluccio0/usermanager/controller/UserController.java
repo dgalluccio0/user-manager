@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
+import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.UserDTO;
 import io.github.dgalluccio0.usermanager.model.User;
@@ -27,22 +28,6 @@ public class UserController {
     public ResponseEntity<UserDTO> addUser(@Valid @RequestBody CreateUserDTO dto) {
         User user = service.createUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(service.toUserDTO(user));
-    }
-
-    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> updateUser(
-            @PathVariable Integer id,
-            @Valid @RequestBody UpdateUserDTO dto) {
-        User updatedUser = service.updateUser(id, dto);
-        return ResponseEntity.ok(service.toUserDTO(updatedUser));
-    }
-
-    @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> patchUser(
-            @PathVariable Integer id,
-            @RequestBody PatchUserDTO dto) {
-        User patchedUser = service.patchUser(id, dto);
-        return ResponseEntity.ok(service.toUserDTO(patchedUser));
     }
 
     @GetMapping
@@ -65,6 +50,30 @@ public class UserController {
         return ResponseEntity.ok(service.getByUsernameDTO(username));
     }
 
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> updateUser(
+            @PathVariable Integer id,
+            @Valid @RequestBody UpdateUserDTO dto) {
+        User updatedUser = service.updateUser(id, dto);
+        return ResponseEntity.ok(service.toUserDTO(updatedUser));
+    }
+
+    @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> patchUser(
+            @PathVariable Integer id,
+            @RequestBody PatchUserDTO dto) {
+        User patchedUser = service.patchUser(id, dto);
+        return ResponseEntity.ok(service.toUserDTO(patchedUser));
+    }
+
+    @PatchMapping(path = "/{id}/role", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> updateRole(
+                @PathVariable Integer id,
+            @RequestBody UpdateRoleDTO dto) {
+        User updatedRoleUser = service.updateRoleUser(id, dto);
+        return ResponseEntity.ok(service.toUserDTO(updatedRoleUser));
+    }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         service.deleteById(id);

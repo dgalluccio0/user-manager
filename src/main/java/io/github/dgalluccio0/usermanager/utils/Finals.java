@@ -1,5 +1,7 @@
 package io.github.dgalluccio0.usermanager.utils;
 
+import javax.management.relation.Role;
+
 public interface Finals {
 	// Numbers
 	int MAX_EMAIL_LENGTH = 256;
@@ -19,6 +21,10 @@ public interface Finals {
 	String PASSWORD_REQUIRED_ERROR = "Password required.";
 	String PASSWORD_TOO_LONG_ERROR = "Password must be at most " + MAX_PASSWORD_LENGTH + " characters.";
 
+	String ROLE_REQUIRED_ERROR = "Role required.";
+
+	String CANT_DEMOTE_LAST_ADMIN_ERROR = "At least one " + RoleType.ADMIN + " must exist.";
+	
 	String USER_NOT_FOUND_ERROR = "User not found.";
 }
 
