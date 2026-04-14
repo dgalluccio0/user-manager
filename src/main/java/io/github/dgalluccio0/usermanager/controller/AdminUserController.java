@@ -42,7 +42,7 @@ public class AdminUserController {
     public ResponseEntity<UserDTO> addUser(
         @Valid @RequestBody CreateUserDTO dto) {
         User user = service.createUser(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.toUser(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.toUserDTO(user));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -75,7 +75,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody UpdateUserDTO dto) {
         User updatedUser = service.updateUser(id, dto);
-        return ResponseEntity.ok(service.toUser(updatedUser));
+        return ResponseEntity.ok(service.toUserDTO(updatedUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -84,7 +84,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody PatchUserDTO dto) {
         User patchedUser = service.patchUser(id, dto);
-        return ResponseEntity.ok(service.toUser(patchedUser));
+        return ResponseEntity.ok(service.toUserDTO(patchedUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -93,7 +93,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody UpdateRoleDTO dto) {
         User updatedRoleUser = service.updateRoleUser(id, dto);
-        return ResponseEntity.ok(service.toUser(updatedRoleUser));
+        return ResponseEntity.ok(service.toUserDTO(updatedRoleUser));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -102,7 +102,7 @@ public class AdminUserController {
                 @Valid @RequestBody UpdatePasswordDTO dto,
                 @AuthenticationPrincipal CustomUserDetails userDetails) {
         User updatedPasswordUser = service.updatePassword(userDetails.getId(), dto);
-        return ResponseEntity.ok(service.toUser(updatedPasswordUser));
+        return ResponseEntity.ok(service.toUserDTO(updatedPasswordUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -111,7 +111,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody ResetPasswordDTO dto) {
         User resettedPasswordUser = service.resetPassword(id, dto);
-        return ResponseEntity.ok(service.toUser(resettedPasswordUser));
+        return ResponseEntity.ok(service.toUserDTO(resettedPasswordUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -32,7 +32,7 @@ public class UserController {
             @Valid @RequestBody UpdateUsernameDTO dto,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         User updatedUser = service.updateUsername(userDetails.getId(), dto);
-        return ResponseEntity.ok(service.toUser(updatedUser));
+        return ResponseEntity.ok(service.toUserDTO(updatedUser));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -41,7 +41,7 @@ public class UserController {
             @Valid @RequestBody UpdateEmailDTO dto,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         User updatedUser = service.updateEmail(userDetails.getId(), dto);
-        return ResponseEntity.ok(service.toUser(updatedUser));
+        return ResponseEntity.ok(service.toUserDTO(updatedUser));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -50,6 +50,6 @@ public class UserController {
             @Valid @RequestBody UpdatePasswordDTO dto,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         User updatedUser = service.updatePassword(userDetails.getId(), dto);
-        return ResponseEntity.ok(service.toUser(updatedUser));
+        return ResponseEntity.ok(service.toUserDTO(updatedUser));
     }
 }

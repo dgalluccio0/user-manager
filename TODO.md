@@ -1,4 +1,2 @@
-- Audit table, maybe switch to a soft delete to avoid problems with logs
-- Add a login and registration endpoint
 - Use JWT
 - Disable Basic Auth (don't forget)

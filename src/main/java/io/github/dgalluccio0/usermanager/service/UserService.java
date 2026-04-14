@@ -32,7 +32,7 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO toUser(User user) {
+    public UserDTO toUserDTO(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
 
@@ -56,7 +56,7 @@ public class UserService {
     public List<UserDTO> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(this::toUser)
+                .map(this::toUserDTO)
                 .toList();
     }
 
@@ -64,21 +64,21 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        return toUser(user);
+        return toUserDTO(user);
     }
 
     public UserDTO getByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        return toUser(user);
+        return toUserDTO(user);
     }
 
     public UserDTO getByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        return toUser(user);
+        return toUserDTO(user);
     }
 
     public User updateUser(Integer id, UpdateUserDTO dto) {
