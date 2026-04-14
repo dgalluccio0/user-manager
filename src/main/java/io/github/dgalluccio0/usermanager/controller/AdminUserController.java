@@ -37,8 +37,10 @@ public class AdminUserController {
 
     private final UserService service;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> addUser(@Valid @RequestBody CreateUserDTO dto) {
+    public ResponseEntity<UserDTO> addUser(
+        @Valid @RequestBody CreateUserDTO dto) {
         User user = service.createUser(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(service.toUserDTO(user));
     }

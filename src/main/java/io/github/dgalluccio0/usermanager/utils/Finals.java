@@ -8,7 +8,6 @@ public interface Finals {
 	int MAX_EMAIL_LENGTH = 256;
 	int MAX_USERNAME_LENGTH = 64;
 	int MAX_PASSWORD_LENGTH = 64;
-	int MAX_HASHED_PASSWORD_LENGTH = 512;
 
 	// Error messages
 	String EMAIL_REQUIRED_ERROR = "Email required.";
@@ -23,6 +22,7 @@ public interface Finals {
 	String PASSWORD_LENGTH_ERROR = "Password must be at least " + MIN_PASSWORD_LENGTH + " characters, and at most " + MAX_PASSWORD_LENGTH + " characters.";
 
 	String OLD_PASSWORD_NOT_MATCHING_ERROR = "The old password is not correct.";
+	String CONFIRMATION_PASSWORD_NOT_MATCHING_ERROR = "The new password and the confirmation password do not match.";
 
 	String ROLE_REQUIRED_ERROR = "Role required.";
 

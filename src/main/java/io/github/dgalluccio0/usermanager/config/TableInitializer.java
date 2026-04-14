@@ -1,4 +1,4 @@
-package io.github.dgalluccio0.usermanager.service;
+package io.github.dgalluccio0.usermanager.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

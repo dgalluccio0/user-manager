@@ -17,4 +17,8 @@ public class UpdatePasswordDTO {
     @NotBlank(message = Finals.PASSWORD_REQUIRED_ERROR)
     @Size(min = Finals.MIN_PASSWORD_LENGTH, max = Finals.MAX_PASSWORD_LENGTH, message = Finals.PASSWORD_LENGTH_ERROR)
     private String newPassword;
+
+    @NotBlank(message = Finals.PASSWORD_REQUIRED_ERROR)
+    @Size(min = Finals.MIN_PASSWORD_LENGTH, max = Finals.MAX_PASSWORD_LENGTH, message = Finals.PASSWORD_LENGTH_ERROR)
+    private String confirmationPassword;
 }

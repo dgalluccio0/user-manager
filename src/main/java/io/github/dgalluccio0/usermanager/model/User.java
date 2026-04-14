@@ -37,7 +37,7 @@ public class User {
 	private String username;
 	
 	@NotBlank
-	//@Size(min = Finals.MIN_PASSWORD_LENGTH, max = Finals.MAX_HASHED_PASSWORD_LENGTH) // commented out because it has the hashed password here
+	//@Size(min = Finals.MIN_PASSWORD_LENGTH, max = Finals.MAX_PASSWORD_LENGTH) // commented out because it has the hashed password here
 	private String password;
 
 	@NotNull

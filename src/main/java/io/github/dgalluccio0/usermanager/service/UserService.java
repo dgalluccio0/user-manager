@@ -34,6 +34,23 @@ public class UserService {
         return modelMapper.map(user, UserDTO.class);
     }
 
+    public User createUser(CreateUserDTO dto) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
+        }
+
+        User user = modelMapper.map(dto, User.class);
+
+        if (!(dto.getPassword().equals(dto.getConfirmationPassword()))) {
+            throw new IllegalArgumentException(Finals.CONFIRMATION_PASSWORD_NOT_MATCHING_ERROR);
+        }
+
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(RoleType.USER);
+
+        return userRepository.save(user);
+    }
+
     public List<UserDTO> getAllDTO() {
         return userRepository.findAll()
                 .stream()
@@ -60,19 +77,6 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
         return toUserDTO(user);
-    }
-
-    public User createUser(CreateUserDTO dto) {
-        if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
-        }
-
-        User user = modelMapper.map(dto, User.class);
-        
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole(RoleType.USER);
-        
-        return userRepository.save(user);
     }
 
     public User updateUser(Integer id, UpdateUserDTO dto) {
@@ -127,6 +131,10 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
         if (!(passwordEncoder.matches(dto.getOldPassword(), oldUser.getPassword()))) {
             throw new IllegalArgumentException(Finals.OLD_PASSWORD_NOT_MATCHING_ERROR);
+        }
+
+        if (!(dto.getNewPassword().equals(dto.getConfirmationPassword()))) {
+            throw new IllegalArgumentException(Finals.CONFIRMATION_PASSWORD_NOT_MATCHING_ERROR);
         }
 
         oldUser.setPassword(passwordEncoder.encode(dto.getNewPassword()));
