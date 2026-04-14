@@ -1,9 +1,10 @@
 package io.github.dgalluccio0.usermanager.utils;
 
-import javax.management.relation.Role;
-
 public interface Finals {
 	// Numbers
+	int MIN_USERNAME_LENGTH = 3;
+	int MIN_PASSWORD_LENGTH = 8;
+
 	int MAX_EMAIL_LENGTH = 256;
 	int MAX_USERNAME_LENGTH = 64;
 	int MAX_PASSWORD_LENGTH = 64;
@@ -13,13 +14,15 @@ public interface Finals {
 	String EMAIL_REQUIRED_ERROR = "Email required.";
 	String EMAIL_NOT_VALID_ERROR = "Email not valid.";
 	String EMAIL_ALREADY_EXISTS_ERROR = "Email already exists.";
-	String EMAIL_TOO_LONG_ERROR = "Email must be at most " + MAX_EMAIL_LENGTH + " characters.";
+	String EMAIL_LENGTH_ERROR = "Email must be at most " + MAX_EMAIL_LENGTH + " characters.";
 
 	String USERNAME_REQUIRED_ERROR = "Username required.";
-	String USERNAME_TOO_LONG_ERROR = "Username must be at most " + MAX_USERNAME_LENGTH + " characters.";
+	String USERNAME_LENGTH_ERROR = "Username must be at least " + MIN_USERNAME_LENGTH + " characters, and at most " + MAX_USERNAME_LENGTH + " characters.";
 
 	String PASSWORD_REQUIRED_ERROR = "Password required.";
-	String PASSWORD_TOO_LONG_ERROR = "Password must be at most " + MAX_PASSWORD_LENGTH + " characters.";
+	String PASSWORD_LENGTH_ERROR = "Password must be at least " + MIN_PASSWORD_LENGTH + " characters, and at most " + MAX_PASSWORD_LENGTH + " characters.";
+
+	String OLD_PASSWORD_NOT_MATCHING_ERROR = "The old password is not correct.";
 
 	String ROLE_REQUIRED_ERROR = "Role required.";
 

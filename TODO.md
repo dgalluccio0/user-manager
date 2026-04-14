@@ -1,9 +1,9 @@
-- Create an UpdatePasswordDTO, add a method to reset the password by using both the old and the new one
 - Create an AdminResetPasswordDTO, add the respective method
 - Lock methods behind admin authorization
+- Add a login and registration endpoint
+- Add rules to password (certain amount of complexity, etc.)
+- Revisit both UpdatePassword and CreateUser to ask for a confirmation password to avoid typos
+- Audit table, maybe switch to a soft delete to avoid problems with logs
 - Use JWT
 - Disable Basic Auth (don't forget)
-- Add a login and registration endpoint
-- Add rules to password (min size, certain amount of complexity, etc.)
 - Rate limiting login
-- Audit table

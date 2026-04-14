@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
+import io.github.dgalluccio0.usermanager.dto.UpdatePasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.UserDTO;
@@ -122,11 +123,23 @@ public class UserService {
         return userRepository.save(oldUser);
     }
 
-    public Boolean deleteById(Integer id) {
+    public User updatePassword(Integer id, UpdatePasswordDTO dto) {
+        User oldUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
+        if (!(passwordEncoder.matches(dto.getOldPassword(), oldUser.getPassword()))) {
+            throw new IllegalArgumentException(Finals.OLD_PASSWORD_NOT_MATCHING_ERROR);
+        }
+
+        oldUser.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        return userRepository.save(oldUser);
+    }
+
+    public void deleteById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
-
+        if (userRepository.countByRole(RoleType.ADMIN) <= 1 && user.getRole() == RoleType.ADMIN) {
+            throw new IllegalStateException(Finals.CANT_DEMOTE_LAST_ADMIN_ERROR);
+        }
         userRepository.delete(user);
-        return true;
     }
 }

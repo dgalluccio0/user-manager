@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateUserDTO {
 	@NotBlank(message = Finals.USERNAME_REQUIRED_ERROR)
-	@Size(max = Finals.MAX_USERNAME_LENGTH, message = Finals.USERNAME_TOO_LONG_ERROR)
+	@Size(min = Finals.MIN_USERNAME_LENGTH, max = Finals.MAX_USERNAME_LENGTH, message = Finals.USERNAME_LENGTH_ERROR)
 	private String username;
 
 	@NotBlank(message = Finals.EMAIL_REQUIRED_ERROR)
 	@Email(message = Finals.EMAIL_NOT_VALID_ERROR)
-	@Size(max = Finals.MAX_EMAIL_LENGTH, message = Finals.EMAIL_TOO_LONG_ERROR)
+	@Size(max = Finals.MAX_EMAIL_LENGTH, message = Finals.EMAIL_LENGTH_ERROR)
 	private String email;
 }

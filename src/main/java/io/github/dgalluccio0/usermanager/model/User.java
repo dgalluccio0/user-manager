@@ -33,11 +33,11 @@ public class User {
 	private String email;
 	
 	@NotBlank
-	@Size(max = Finals.MAX_USERNAME_LENGTH)
+	@Size(min = Finals.MIN_USERNAME_LENGTH, max = Finals.MAX_USERNAME_LENGTH)
 	private String username;
 	
 	@NotBlank
-	@Size(max = Finals.MAX_HASHED_PASSWORD_LENGTH)
+	//@Size(min = Finals.MIN_PASSWORD_LENGTH, max = Finals.MAX_HASHED_PASSWORD_LENGTH) // commented out because it has the hashed password here
 	private String password;
 
 	@NotNull

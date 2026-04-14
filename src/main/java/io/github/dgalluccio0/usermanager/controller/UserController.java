@@ -5,13 +5,24 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
+import io.github.dgalluccio0.usermanager.dto.UpdatePasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.UserDTO;
+import io.github.dgalluccio0.usermanager.model.CustomUserDetails;
 import io.github.dgalluccio0.usermanager.model.User;
 import io.github.dgalluccio0.usermanager.service.UserService;
 import jakarta.validation.Valid;
@@ -61,19 +72,28 @@ public class UserController {
     @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> patchUser(
             @PathVariable Integer id,
-            @RequestBody PatchUserDTO dto) {
+            @Valid @RequestBody PatchUserDTO dto) {
         User patchedUser = service.patchUser(id, dto);
         return ResponseEntity.ok(service.toUserDTO(patchedUser));
     }
 
-    @PatchMapping(path = "/{id}/role", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/{id}/role", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> updateRole(
-                @PathVariable Integer id,
-            @RequestBody UpdateRoleDTO dto) {
+            @PathVariable Integer id,
+            @Valid @RequestBody UpdateRoleDTO dto) {
         User updatedRoleUser = service.updateRoleUser(id, dto);
         return ResponseEntity.ok(service.toUserDTO(updatedRoleUser));
     }
-    
+
+    @PatchMapping(path = "/password", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> updatePassword(
+                @Valid @RequestBody UpdatePasswordDTO dto,
+                @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        User updatedPasswordUser = service.updatePassword(userDetails.getId(), dto);
+        return ResponseEntity.ok(service.toUserDTO(updatedPasswordUser));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         service.deleteById(id);
