@@ -42,31 +42,31 @@ public class AdminUserController {
     public ResponseEntity<UserDTO> addUser(
         @Valid @RequestBody CreateUserDTO dto) {
         User user = service.createUser(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.toUserDTO(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.toUser(user));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
-        return ResponseEntity.ok(service.getAllDTO());
+        return ResponseEntity.ok(service.getAll());
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable Integer id) {
-        return ResponseEntity.ok(service.getByIdDTO(id));
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDTO> getByEmail(@PathVariable String email) {
-        return ResponseEntity.ok(service.getByEmailDTO(email));
+        return ResponseEntity.ok(service.getByEmail(email));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/username/{username}")
     public ResponseEntity<UserDTO> getByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(service.getByUsernameDTO(username));
+        return ResponseEntity.ok(service.getByUsername(username));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -75,7 +75,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody UpdateUserDTO dto) {
         User updatedUser = service.updateUser(id, dto);
-        return ResponseEntity.ok(service.toUserDTO(updatedUser));
+        return ResponseEntity.ok(service.toUser(updatedUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -84,7 +84,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody PatchUserDTO dto) {
         User patchedUser = service.patchUser(id, dto);
-        return ResponseEntity.ok(service.toUserDTO(patchedUser));
+        return ResponseEntity.ok(service.toUser(patchedUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -93,7 +93,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody UpdateRoleDTO dto) {
         User updatedRoleUser = service.updateRoleUser(id, dto);
-        return ResponseEntity.ok(service.toUserDTO(updatedRoleUser));
+        return ResponseEntity.ok(service.toUser(updatedRoleUser));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -102,7 +102,7 @@ public class AdminUserController {
                 @Valid @RequestBody UpdatePasswordDTO dto,
                 @AuthenticationPrincipal CustomUserDetails userDetails) {
         User updatedPasswordUser = service.updatePassword(userDetails.getId(), dto);
-        return ResponseEntity.ok(service.toUserDTO(updatedPasswordUser));
+        return ResponseEntity.ok(service.toUser(updatedPasswordUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -111,7 +111,7 @@ public class AdminUserController {
             @PathVariable Integer id,
             @Valid @RequestBody ResetPasswordDTO dto) {
         User resettedPasswordUser = service.resetPassword(id, dto);
-        return ResponseEntity.ok(service.toUserDTO(resettedPasswordUser));
+        return ResponseEntity.ok(service.toUser(resettedPasswordUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

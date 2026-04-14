@@ -26,7 +26,7 @@ public interface Finals {
 
 	String ROLE_REQUIRED_ERROR = "Role required.";
 
-	String CANT_DEMOTE_LAST_ADMIN_ERROR = "At least one " + RoleType.ADMIN + " must exist.";
+	String AT_LEAST_ONE_ADMIN_NEEDED_ERROR = "At least one " + RoleType.ADMIN + " must exist.";
 	
 	String USER_NOT_FOUND_ERROR = "User not found.";
 }

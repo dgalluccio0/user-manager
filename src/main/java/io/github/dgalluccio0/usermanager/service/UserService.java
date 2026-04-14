@@ -32,7 +32,7 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserDTO toUserDTO(User user) {
+    public UserDTO toUser(User user) {
         return modelMapper.map(user, UserDTO.class);
     }
 
@@ -53,32 +53,32 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<UserDTO> getAllDTO() {
+    public List<UserDTO> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(this::toUserDTO)
+                .map(this::toUser)
                 .toList();
     }
 
-    public UserDTO getByIdDTO(Integer id) {
+    public UserDTO getById(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        return toUserDTO(user);
+        return toUser(user);
     }
 
-    public UserDTO getByUsernameDTO(String username) {
+    public UserDTO getByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        return toUserDTO(user);
+        return toUser(user);
     }
 
-    public UserDTO getByEmailDTO(String email) {
+    public UserDTO getByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        return toUserDTO(user);
+        return toUser(user);
     }
 
     public User updateUser(Integer id, UpdateUserDTO dto) {
@@ -119,7 +119,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
         if (dto.getRole() == RoleType.USER && oldUser.getRole() == RoleType.ADMIN
                 && userRepository.countByRole(RoleType.ADMIN) <= 1) {
-            throw new IllegalStateException(Finals.CANT_DEMOTE_LAST_ADMIN_ERROR);
+            throw new IllegalStateException(Finals.AT_LEAST_ONE_ADMIN_NEEDED_ERROR);
         }
 
         modelMapper.map(dto, oldUser);
@@ -173,7 +173,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
         if (userRepository.countByRole(RoleType.ADMIN) <= 1 && user.getRole() == RoleType.ADMIN) {
-            throw new IllegalStateException(Finals.CANT_DEMOTE_LAST_ADMIN_ERROR);
+            throw new IllegalStateException(Finals.AT_LEAST_ONE_ADMIN_NEEDED_ERROR);
         }
         userRepository.delete(user);
     }
