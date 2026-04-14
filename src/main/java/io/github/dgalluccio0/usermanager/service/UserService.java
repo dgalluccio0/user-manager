@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
+import io.github.dgalluccio0.usermanager.dto.ResetPasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdatePasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
@@ -131,6 +132,14 @@ public class UserService {
         }
 
         oldUser.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        return userRepository.save(oldUser);
+    }
+
+    public User resetPassword(Integer id, ResetPasswordDTO dto) {
+        User oldUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
+
+        oldUser.setPassword(passwordEncoder.encode(dto.getPassword()));
         return userRepository.save(oldUser);
     }
 

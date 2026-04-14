@@ -1,4 +1,3 @@
-- Create an AdminResetPasswordDTO, add the respective method
 - Lock methods behind admin authorization
 - Add a login and registration endpoint
 - Add rules to password (certain amount of complexity, etc.)

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
+import io.github.dgalluccio0.usermanager.dto.ResetPasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdatePasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
@@ -89,9 +90,16 @@ public class UserController {
     public ResponseEntity<UserDTO> updatePassword(
                 @Valid @RequestBody UpdatePasswordDTO dto,
                 @AuthenticationPrincipal CustomUserDetails userDetails) {
-
         User updatedPasswordUser = service.updatePassword(userDetails.getId(), dto);
         return ResponseEntity.ok(service.toUserDTO(updatedPasswordUser));
+    }
+
+    @PatchMapping(path = "{id}/resetPassword", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> resetPassword(
+            @PathVariable Integer id,
+            @Valid @RequestBody ResetPasswordDTO dto) {
+        User resettedPasswordUser = service.resetPassword(id, dto);
+        return ResponseEntity.ok(service.toUserDTO(resettedPasswordUser));
     }
 
     @DeleteMapping("/{id}")
