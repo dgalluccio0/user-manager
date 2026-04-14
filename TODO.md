@@ -1,4 +1,3 @@
-- Lock methods behind admin authorization
 - Add a login and registration endpoint
 - Add rules to password (certain amount of complexity, etc.)
 - Revisit both UpdatePassword and CreateUser to ask for a confirmation password to avoid typos
