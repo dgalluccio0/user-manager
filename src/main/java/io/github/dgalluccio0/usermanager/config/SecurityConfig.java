@@ -9,6 +9,11 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -16,13 +21,24 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-			//.csrf(csrf -> csrf.disable())
-			.authorizeHttpRequests(authorize ->
-				authorize.anyRequest().authenticated())
+				.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(authorize -> authorize
+						.anyRequest().authenticated())
 				.httpBasic(Customizer.withDefaults());
-			//.formLogin(Customizer.withDefaults());
+		//.formLogin(Customizer.withDefaults());
 
 		return http.build();
+	}
+	
+	@Bean
+	public OpenAPI customOpenAPI() {
+		return new OpenAPI()
+				.components(new Components()
+						.addSecuritySchemes("basicAuth",
+								new SecurityScheme()
+										.type(SecurityScheme.Type.HTTP)
+										.scheme("basic")))
+				.addSecurityItem(new SecurityRequirement().addList("basicAuth"));
 	}
 	
 	@Bean
