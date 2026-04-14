@@ -2,4 +2,3 @@
 - Audit table, maybe switch to a soft delete to avoid problems with logs
 - Use JWT
 - Disable Basic Auth (don't forget)
-- Rate limiting login

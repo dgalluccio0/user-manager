@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import io.github.dgalluccio0.usermanager.dto.CreateUserDTO;
 import io.github.dgalluccio0.usermanager.dto.PatchUserDTO;
 import io.github.dgalluccio0.usermanager.dto.ResetPasswordDTO;
+import io.github.dgalluccio0.usermanager.dto.UpdateEmailDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdatePasswordDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateRoleDTO;
 import io.github.dgalluccio0.usermanager.dto.UpdateUserDTO;
+import io.github.dgalluccio0.usermanager.dto.UpdateUsernameDTO;
 import io.github.dgalluccio0.usermanager.dto.UserDTO;
 import io.github.dgalluccio0.usermanager.exceptions.ResourceNotFoundException;
 import io.github.dgalluccio0.usermanager.model.User;
@@ -83,8 +85,7 @@ public class UserService {
         User oldUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
-        if (userRepository.existsByEmailAndIdNot(dto.getEmail(), id)
-                && !oldUser.getEmail().equals(dto.getEmail())) {
+        if (userRepository.existsByEmailAndIdNot(dto.getEmail(), id)) {
             throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
         }
 
@@ -97,8 +98,7 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
 
         if (null != dto.getEmail()
-                && userRepository.existsByEmailAndIdNot(dto.getEmail(), id)
-                && !oldUser.getEmail().equals(dto.getEmail())) {
+                && userRepository.existsByEmailAndIdNot(dto.getEmail(), id)) {
             throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
         }
 
@@ -122,6 +122,26 @@ public class UserService {
             throw new IllegalStateException(Finals.CANT_DEMOTE_LAST_ADMIN_ERROR);
         }
 
+        modelMapper.map(dto, oldUser);
+        return userRepository.save(oldUser);
+    }
+
+    public User updateUsername(Integer id, UpdateUsernameDTO dto) {
+        User oldUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
+
+        modelMapper.map(dto, oldUser);
+        return userRepository.save(oldUser);
+    }
+
+    public User updateEmail(Integer id, UpdateEmailDTO dto) {
+        User oldUser = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Finals.USER_NOT_FOUND_ERROR));
+
+        if (userRepository.existsByEmailAndIdNot(dto.getEmail(), id)) {
+            throw new IllegalArgumentException(Finals.EMAIL_ALREADY_EXISTS_ERROR);
+        }
+        
         modelMapper.map(dto, oldUser);
         return userRepository.save(oldUser);
     }
