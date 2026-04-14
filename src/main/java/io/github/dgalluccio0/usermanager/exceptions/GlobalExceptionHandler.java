@@ -36,13 +36,13 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<String> handleBadRequest(Exception ex) {
-		return ResponseEntity.badRequest().body(ex.getMessage());
+	public ResponseEntity<String> handleBadRequest(IllegalArgumentException ie) {
+		return ResponseEntity.badRequest().body(ie.getMessage());
 	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+	public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException re) {
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(re.getMessage());
 	}
 }
