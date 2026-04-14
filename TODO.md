@@ -7,3 +7,4 @@
 - Add a login and registration endpoint
 - Add rules to password (min size, certain amount of complexity, etc.)
 - Rate limiting login
+- Audit table
