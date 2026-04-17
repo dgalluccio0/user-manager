@@ -12,10 +12,10 @@ When the service is started, two users are created:
 * Password: `user`
 
 ## Live Demo
-Test the API live via the interactive Swagger UI:
-**[Live Swagger Documentation](https://user-manager-k711.onrender.com/usermanager/swagger-ui/index.html#/)**
+You can test the API via the  Swagger UI:
+**[Swagger UI](https://user-manager-k711.onrender.com/usermanager/swagger-ui/index.html#/)**
 
-*(Note: The API is hosted on a free Render instance, so the first request might take up to 50 seconds to wake the server up.)*
+*(The API is hosted on a free Render instance, so the first request might take up to 4 minutes to wake the server up.)*
 
 <div align="center">
   <a href="https://user-manager-k711.onrender.com/usermanager/swagger-ui/index.html#/">
